@@ -1,150 +1,109 @@
 let informe="";
-let porcentaje;
+let variacion;
 let dif;
-
+let opcion;
+let cantidad;
 //FUNCIONES
-function variacionPorcentual(ventaActual,ventaAnterior)
-{
-return [(ventaActual-ventaAnterior)/ventaAnterior]*100;
-}
+const variacionPorcentual=(ventaActual,ventaAnterior)=>{return [(ventaActual-ventaAnterior)/ventaAnterior]*100;}
 
-function diferencia(ventaActual,ventaAnterior){
+const diferencia=(ventaActual,ventaAnterior)=>{return ventaActual-ventaAnterior;}
 
-    return ventaActual-ventaAnterior;
+function validacion(valor){
 
-}
-function validacionActual(valorActual){
-
-    while(valorActual=="" || isNaN(valorActual))
+    while(valor=="" || isNaN(valor))
     {
-     if(valorActual=="") {
-        
-            alert("No ingresó nada");
-            valorActual=prompt(`Por favor, ingrese correctamente "la cantidad" de camisetas vendidas`);
+     if(valor=="") {
+        alert("No ingresó nada");
+        valor=prompt(`Por favor, ingrese correctamente "la cantidad" de camisetas vendidas`);
         }
-    if(isNaN(valorActual)){
-            alert("Ingresó un dato no solicitado");
-            valorActual=prompt(`Por favor, ingrese correctamente "la cantidad" de camisetas vendidas`);
-    } }
-  return valorActual
+    if(isNaN(valor)){
+        alert("Ingresó un dato no solicitado");
+        valor=prompt(`Por favor, ingrese correctamente "la cantidad" de camisetas vendidas`);
+        }
+    }
+return valor;
 }
 
-  function calculo(valorEntrada)
-  {
-    alert(`Su stock inicial es ${valorEntrada}`);
-    for(let i=2;i<=12;i++){
+  function calculo(valorEntrada){
+    
+    for(let i=2;i<=meses.length;i++){
 
-        let camisetasActual=prompt(`Ingrese la cantidad vendidas en el ${i}° mes del año`);
-        
-        if((camisetasActual=="" ) || (isNaN(camisetasActual))){
-        camisetasActual=validacionActual(camisetasActual);}//llamado
-        
-
-        if(valorEntrada<camisetasActual)
-        {
-         porcentaje=variacionPorcentual(camisetasActual, valorEntrada);
-         dif=diferencia(camisetasActual, valorEntrada);
-         informe=`El ${i}° dia hubo un aumento de ${porcentaje}%, se vendio ${dif} mas que el mes anterior \n`;
-         console.log(`
-            ${i}° mes anterior ${valorEntrada}
-            ${i}° mes actual ${camisetasActual}
-            ${informe}`)
-        }
-        else if(valorEntrada>camisetasActual){
-         porcentaje=variacionPorcentual(camisetasActual, valorEntrada);
-         dif=diferencia(camisetasActual, valorEntrada);
-         informe=`El ${i}° dia hubo una bajada de ${porcentaje}%, se vendio ${dif} menos que el mes anterior \n`;
-         console.log(`
-            ${i}° mes anterior ${valorEntrada}
-            ${i}° mes actual ${camisetasActual}
-            ${informe}`)
-        }
-        else
-        {   
-            informe=`El ${i}° mes no hubo aumento ni bajada, se vendio igual que el mes anterior \n`;
-            console.log(`
-            ${i}° mes anterior ${valorEntrada}
-            ${i}° mes actual ${camisetasActual}
-            ${informe}`)
-        } 
-        valorEntrada=camisetasActual;
-         }
+        cantidad=prompt(`Ingrese la cantidad vendidas en el mes ${meses[i-1]}`);
+            if((cantidad=="" ) || (isNaN(cantidad))){
+                cantidad=validacion(cantidad);
+            }
+            if(valorEntrada<cantidad)
+            {
+                variacion=variacionPorcentual(cantidad, valorEntrada);
+                dif=diferencia(cantidad, valorEntrada);
+                informe=`El mes de ${meses[i-1]} hubo un aumento de ${variacion}%, se vendio ${dif} mas que el mes anterior  \n`;
+                
+console.log(`venta en el mes ${meses[i-2]}: ${valorEntrada}
+Venta en el mes ${meses[i-1]}: ${cantidad}
+${informe}`)
+            }
+            else if(valorEntrada>cantidad)
+            {
+                variacion=variacionPorcentual(cantidad, valorEntrada);
+                dif=diferencia(cantidad, valorEntrada);
+                informe=`El mes de ${meses[i-1]} hubo una bajada de ${variacion}%, se vendio ${dif} menos que el mes anterior \n`;
+                
+console.log(`Venta en el mes ${meses[i-2]}: ${valorEntrada}
+Venta en el mes ${meses[i-1]}: ${cantidad}
+${informe}`)
+            }
+            else{   
+                informe=`El mes de ${meses[i-1]} no hubo aumento ni bajada, se vendio igual que el mes anterior \n`;
+                
+console.log(`Venta en el mes ${meses[i-2]} :${valorEntrada}
+Venta en el mes ${meses[i-1]} :${cantidad}
+${informe}`)
+                } 
+    valorEntrada=cantidad;
+     }
 }
 
 //array
-const producto=[];
+const productos=[
+    {   id:1,
+        nombre:"camiseta",
+        equipo: "Barcelona",
+        stock: 500},
+    {   id:2, 
+        nombre:"short",
+        equipo: "Barcelona",
+        stock:300},
+    {   id:3,
+        nombre:"campera",
+        equipo: "Barcelona",
+        stock: 250},
+    {   id:4,
+        nombre:"botines",
+        marca: "ADIDAS",
+        stock:200}
+]
+const meses=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
 
-const vestimenta={
-    nombre:"camiseta",
-    equipo: "Barcelona",
-    stockInicial: 500
-}
-const vestimenta1={
-    nombre:"short",
-    equipo: "Barcelona",
-    stockInicial:300
-    
-}
-const vestimenta2={
-    nombre:"campera",
-    equipo: "Barcelona",
-    stockInicial: 250
-}
-const vestimenta3={
-    nombre:"botines",
-    marca: "ADIDAS",
-    stockInicial:200
-}
-producto.push(vestimenta);
-producto.push(vestimenta1);
-producto.push(vestimenta2);
-producto.push(vestimenta3);
+alert("A continuación te mostraré en la consola los productos disponibles");
 
-console.log("Mis productos principales:",producto);
+console.log(productos);
+
+do{ 
+    opcion=Number(prompt(`Elija el id del producto que quisiera evaluar su variacion:`))
+  }
+while(opcion!=1 && opcion!=2 && opcion!=3 && opcion!=4)
+
+console.log(`Su stock es de ${productos[opcion-1].stock}`);
+
+let vendido=prompt(`Ingrese la cantidad vendida en el primer mes del año`);
+        
+if((vendido=="" ) || (isNaN(vendido))){
+    vendido=validacion(vendido);}
+
+let porcentual=(vendido*100)/productos[opcion-1].stock;
+console.log(`${productos[opcion-1].nombre.toLocaleUpperCase()}
+            Se vendio el ${porcentual}% del stock en el mes de ${meses[0]}`);
+
+calculo(vendido);
 
 
-let stockCamisetas=(producto[0].stockInicial);
-//console.log(stockCamisetas);
-let stockShort=(producto[1].stockInicial);
-//console.log(stockShort);
-let stockCampera=(producto[2].stockInicial);
-//console.log(stockCampera);
-let stockBotines=(producto[3].stockInicial);
-//console.log(stockBotines);
-
-let opcion=prompt(`Ingrese la opcion del producto que quisiera averiguar su variacion en el año:
-1) Camisetas
-2) Short
-3) Camperas
-4) Botines`)
-
-do{
-
-switch(opcion){
-    case "1":
-console.log("CAMISETAS")
-    calculo(stockCamisetas);
-break;
-case "2":
-console.log("SHORT")
-    calculo(stockShort);
-break;
-case "3":
-console.log("CAMPERA")
-    calculo(stockCampera);
-break;
-case "4":
-    console.log("BOTINES")
-calculo(stockBotines);
-    break;
-default:
-    {alert("Opcion incorrecta");
-    let opcion=prompt(`Ingrese la opcion del producto que quisiera averiguar su variacion en el año:
-    1) Camisetas
-    2) Short
-    3) Camperas
-    4) Botines`)}
-    break;
-
-}}
-while(opcion=="1" || opcion=="2" || opcion=="3" || opcion=="4")
