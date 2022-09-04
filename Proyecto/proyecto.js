@@ -86,7 +86,11 @@ const meses=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","
 
 alert("A continuación te mostraré en la consola los productos disponibles");
 
-console.log(productos);
+//console.log(productos);
+for (const producto of productos){
+
+    console.log(producto);
+}
 
 do{ 
     opcion=Number(prompt(`Elija el id del producto que quisiera evaluar su variacion:`))
