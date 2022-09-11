@@ -91,7 +91,7 @@ function descuento() {
   console.log(`Con tarjeta se va a $${desc}`);
 }
 
-alert("Gracias por la compra");
+
 
 //PROGRAMA
 const deportivos = [
@@ -133,3 +133,4 @@ do {
 } while (pregunta != "no");
 
 total();
+alert("Gracias por la compra");
