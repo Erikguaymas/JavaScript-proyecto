@@ -1,110 +1,7 @@
-/*
-//DECLARACION
-let arrayDeportivo = [];
-let pregunta;
-let desc;
-let tot;
-let id;
-
-//FUNCIONES
-function realizoCompra() {
-  opcion = Number(prompt(`Elija el id del producto que quisiera comprar:`));
-
-  while (opcion > 6 || isNaN(opcion) || opcion == "") {
-    opcion = Number(
-      prompt(`Elija correctamente el id del producto que quisiera comprar:`)
-    );
-  }
-  console.log(
-    `Se agregó el producto "${deportivos[
-      opcion - 1
-    ].nombre.toLocaleUpperCase()} a mi carrito"`
-  );
-  arrayDeportivo.push(deportivos[opcion - 1]);
-}
-
-function compraHecha() {
-  let i = 1;
-  alert("Mostraremos el carrito");
-  arrayDeportivo.forEach((prod) => {
-    alert(`${i}) ${prod.nombre} de ${prod.precio}`);
-    i++;
-  });
-
-  do {
-    pregunta = prompt(
-      "Desea eliminar algun producto? (si o no)"
-    ).toLocaleLowerCase();
-
-    if (pregunta == "si") {
-      descarto();
-    } else if (pregunta == "no") {
-      const lista1 = arrayDeportivo.map((el) => el.nombre);
-      console.log(`Los productos comprados son ${lista1} `);
-    } else {
-      alert("Por favor, ingrese si o no");
-    }
-  } while (pregunta != "si" && pregunta != "no");
-}
-function descarto() {
-  let i = 1;
-  arrayDeportivo.forEach((prod) => {
-    console.log(`${i} ${prod.nombre}`);
-    i++;
-  });
-  opcion = Number(prompt(`Elija opcion del producto para eliminar (consola)`));
-  while (opcion > arrayDeportivo.length || isNaN(opcion) || opcion == "") {
-    opcion = Number(
-      prompt(`Elija correctamente la opcion que quisiera eliminar (consola)`)
-    );
-  }
-  arrayDeportivo.splice(opcion - 1, 1);
-  const lista = arrayDeportivo.map((el) => `\n ${el.nombre}`);
-  alert(`Los productos que estan en mi carrito son: ${lista} `);
-}
-
-function total() {
-  tot = arrayDeportivo.reduce(
-    (acumulador, elemento) => acumulador + elemento.precio,
-    0
-  );
-  do {
-    opcion = prompt("Con que medio paga? \n (1) Tarjeta \n (2) Efectivo");
-    switch (opcion) {
-      case "1":
-        alert("Tendrás un 5% de descuento con tarjeta");
-        descuento();
-        break;
-      case "2":
-        alert(`El total a pagar es $${tot}`);
-        break;
-      default:
-        alert("Ingresó incorrectamente");
-        break;
-    }
-  } while (opcion != "1" && opcion != "2");
-}
-
-function descuento() {
-  console.log(`El total a pagar es $${tot}`);
-
-  desc = tot - [(tot * 5) / 100];
-  console.log(`Con tarjeta se va a $${desc}`);
-}
-
-*/
-
 //PROGRAMA
-let i = 0;
-
-const nombre = prompt("Ingrese su nombre");
-
-const saludo = document.getElementById("nombre");
-
-const parrafo = document.createElement("h1");
-
-parrafo.innerHTML = `Hola bienvenido ${nombre}, acontinuación te mostraremos los productos disponibles`;
-saludo.appendChild(parrafo);
+let i;
+const array = [];
+let subido = document.createElement("li");
 
 const deportivos = [
   {
@@ -113,6 +10,8 @@ const deportivos = [
     equipo: "Selección Argentina",
     precio: 18000,
     imagen: "img/CamisetaSelArg.jpg",
+    detalle:
+      "Camiseta Adidas Hombre Uniforme Titular Qatar 2022. Todos los talles disponibles .",
   },
   {
     id: 2,
@@ -120,6 +19,8 @@ const deportivos = [
     equipo: "Real Madrid",
     precio: 17000,
     imagen: "img/CamisetaReal.png",
+    detalle:
+      "Camiseta Adidas Manga corta Hombre Uniforme Titular Temporada 2022. Todos los talles disponibles",
   },
   {
     id: 3,
@@ -127,6 +28,8 @@ const deportivos = [
     equipo: "Boca Juniors",
     precio: 18000,
     imagen: "img/CamperaBOCA.JPG",
+    detalle:
+      "Campera deportiva Adidas Hombre. Temporada invierno color azul 3 tiras amarillas estilo adidas.",
   },
   {
     id: 4,
@@ -134,6 +37,8 @@ const deportivos = [
     equipo: "River Plate",
     precio: 6000,
     imagen: "img/ShortRIVER.jpg",
+    detalle:
+      "Short Adidas Hombre Uniforme TItular Temporada 21/22. Todos los talles disponibles.",
   },
   {
     id: 5,
@@ -141,6 +46,8 @@ const deportivos = [
     equipo: "Barcelona",
     precio: 20000,
     imagen: "img/chaquetaBARSA.jpeg",
+    detalle:
+      "Chaqueta Acolchada Nike con capucha Temporada invierno Multicolor.",
   },
   {
     id: 6,
@@ -148,17 +55,37 @@ const deportivos = [
     equipo: "PSG",
     precio: 8000,
     imagen: "img/PantalonPSG.jpg",
+    detalle: "Pantalon strike Nike Hombre Modelo 22/23 Color azul.",
   },
 ];
 
-let div = document.getElementById("cards");
-console.log(div);
+const saludo = document.getElementById("entrada");
+saludo.addEventListener("submit", validar);
 
-deportivos.forEach((elemento) => {
-  let cont = document.createElement("div");
-  cont.className = "card";
-  cont.style.maxWidth = "400px";
-  cont.innerHTML = `
+function validar() {
+  let nombre = document.getElementById("nombre").value;
+  console.log(nombre);
+
+  let contenido = document.getElementById("bienvenida");
+  contenido.innerHTML = "";
+
+  const parrafo = document.createElement("div");
+  parrafo.className = "titulo";
+  parrafo.style.maxWidth = "auto";
+
+  parrafo.innerHTML = `<h1>Hola bienvenido ${nombre}, acontinuación te mostraremos los productos disponibles</h1>`;
+  contenido.appendChild(parrafo);
+  mostrar();
+}
+function mostrar() {
+  let div = document.getElementById("cards");
+  console.log(div);
+
+  deportivos.forEach((elemento, indice) => {
+    let cont = document.createElement("div");
+    cont.className = "card";
+    cont.style.maxWidth = "400px";
+    cont.innerHTML = `
 <div class="row g-0">
   <div class="col-md-4">
     <img src="${elemento.imagen}" class="img-fluid rounded-start" alt="ERROR">
@@ -167,63 +94,39 @@ deportivos.forEach((elemento) => {
   <div class="card-body">
     <h5 class="card-title">${elemento.nombre} ${elemento.equipo}</h5>
     <p class="card-text">Precio: $${elemento.precio}</p>
-    <button type="button" class="btn btn-dark">Agregar al carrito</button>
+    <button  type="button" class="btn btn-dark" onClick="agregar(${indice})">Agregar al carrito</button>
   </div>
 </div>
 </div>
+<div class="accordion accordion-flush" id="accordionFlushExample">
+  <div class="accordion-item border">
+    <h2 class="accordion-header" id="flush-headingOne">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+        Ver detalles
+      </button>
+    </h2>
+    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">${elemento.detalle}</div>
+    </div>
+  </div>
+</div>
+
+ 
 `;
-  div.appendChild(cont);
-});
+    div.appendChild(cont);
+  });
+}
 
-let aprobacion = document.getElementById("aprobacion");
+function agregar(indice) {
+  array.push(deportivos[indice]);
+  let carga = document.getElementById("agregado");
 
-aprobacion.innerHTML = `<h3>Selecciona tu experiencia en la tienda</h3>
-<div class="form-check">
-<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-<label class="form-check-label" for="flexRadioDefault1">
-  Horrible
-</label>
-</div>
-<div class="form-check">
-<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-<label class="form-check-label" for="flexRadioDefault2">
-  Regular
-</label>
-</div>
-<div class="form-check">
-<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-<label class="form-check-label" for="flexRadioDefault2">
-  Excelente
-</label>
+  array.forEach((el) => {
+    subido.innerHTML = `<div><h1>Notificacion</h1>
+<p>Se agregó al carrito ${el.nombre} de ${el.equipo}</p>
+<p>Precio: ${el.precio}</p>
 </div>`;
 
-/*
-
-for (const elemento of deportivos) {
-  console.log(elemento);
+    carga.appendChild(subido);
+  });
 }
-const info = deportivos.filter((el) => el.precio < 10000);
-alert("Atento!!! aproveche nuestros precios \n");
-for (const prod of info) {
-  alert(prod.nombre + " de " + prod.equipo + " a $" + prod.precio);
-}
-
-realizoCompra();
-
-do {
-  pregunta = prompt(
-    "Quieres realizar otra compra?\n 1)Si \n 2)No"
-  ).toLocaleLowerCase();
-
-  if (pregunta == "si") {
-    realizoCompra();
-  } else if (pregunta == "no") {
-    compraHecha();
-  } else {
-    alert("Ingrese correctamente por favor");
-  }
-} while (pregunta != "no");
-
-total();
-alert("Gracias por la compra");
-*/
