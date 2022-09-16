@@ -1,8 +1,7 @@
 //PROGRAMA
 let i;
 const array = [];
-let subido = document.createElement("li");
-
+let carga = document.getElementById("agregado");
 const deportivos = [
   {
     id: 1,
@@ -119,11 +118,12 @@ function mostrar() {
 
 function agregar(indice) {
   array.push(deportivos[indice]);
-  let carga = document.getElementById("agregado");
+  let subido = document.createElement("li");
+
 
   array.forEach((el) => {
-    subido.innerHTML = `<div><h1>Notificacion</h1>
-<p>Se agregó al carrito ${el.nombre} de ${el.equipo}</p>
+    subido.innerHTML = `<div>
+<h3>Se agregó al carrito ${el.nombre} de ${el.equipo}</h3>
 <p>Precio: ${el.precio}</p>
 </div>`;
 
