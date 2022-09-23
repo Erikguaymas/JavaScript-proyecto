@@ -4,6 +4,7 @@ const array = [];
 let modal = document.getElementById("modal");
 let comprado = document.getElementById("compra");
 
+
 const deportivos = [
   {
     id: 1,
@@ -119,6 +120,9 @@ function mostrar() {
 `;
     div.appendChild(cont);
   });
+ 
+  
+
 }
 
 function agregar(indice) {
@@ -197,4 +201,68 @@ function almacenar() {
   localStorage.setItem("Productos elegidos", pasaje);
 }
 
-function formulario() {}
+let form=document.getElementById("mandar");
+  form.addEventListener("click",formulario)
+  function formulario() {
+  
+    let pago=document.getElementById("aprobacion")
+      let dato=document.createElement("div");
+  
+      dato.innerHTML=`<form class="row g-3 needs-validation" novalidate>
+      <div class="col-md-4">
+        <label for="validationCustom01" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="validationCustom01" value="Mark" required>
+        <div class="valid-feedback">
+          ¡Se ve bien!
+        </div>
+      </div>
+      <div class="col-md-4">
+        <label for="validationCustom02" class="form-label">Apellido</label>
+        <input type="text" class="form-control" id="validationCustom02" value="Otto" required>
+        <div class="valid-feedback">
+          ¡Se ve bien!
+        </div>
+      </div>
+      <div class="col-md-4">
+        <label for="validationCustomUsername" class="form-label">Nombre de usuario</label>
+        <div class="input-group has-validation">
+          <span class="input-group-text" id="inputGroupPrepend">@</span>
+          <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+          <div class="invalid-feedback">
+            Por favor, elije un nombre de usuario.
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="validationCustom03" class="form-label">Ciudad</label>
+        <input type="text" class="form-control" id="validationCustom03" required>
+        <div class="invalid-feedback">
+          Proporciona una ciudad válida.
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label for="validationCustom04" class="form-label">Estado</label>
+        <select class="form-select" id="validationCustom04" required>
+          <option selected disabled value="">Elige...</option>
+          <option>...</option>
+        </select>
+        <div class="invalid-feedback">
+          Selecciona un estado válido.
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label for="validationCustom05" class="form-label">Código postal</label>
+        <input type="text" class="form-control" id="validationCustom05" required>
+        <div class="invalid-feedback">
+          Proporciona un código postal válido.
+        </div>
+      </div>
+      <div class="col-12">
+        <button class="btn btn-primary" type="submit">Enviar formulario</button>
+      </div>
+      </form>
+  `;
+  pago.appendChild(dato);
+  }
+  
+
