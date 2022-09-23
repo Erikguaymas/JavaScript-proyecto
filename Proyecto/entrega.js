@@ -1,7 +1,9 @@
 //PROGRAMA
 let i;
 const array = [];
-let carga = document.getElementById("agregado");
+let modal = document.getElementById("modal");
+let comprado = document.getElementById("compra");
+
 const deportivos = [
   {
     id: 1,
@@ -63,7 +65,9 @@ saludo.addEventListener("submit", validar);
 
 function validar() {
   let nombre = document.getElementById("nombre").value;
-  console.log(nombre);
+  nombre.oninvalid = function (event) {
+    event.target.setCumtomValidity("Ingrese texto");
+  };
 
   let contenido = document.getElementById("bienvenida");
   contenido.innerHTML = "";
@@ -76,6 +80,7 @@ function validar() {
   contenido.appendChild(parrafo);
   mostrar();
 }
+
 function mostrar() {
   let div = document.getElementById("cards");
   console.log(div);
@@ -117,16 +122,79 @@ function mostrar() {
 }
 
 function agregar(indice) {
-  array.push(deportivos[indice]);
-  let subido = document.createElement("li");
+  const repe = array.some((el) => {
+    return deportivos[indice].id == el.id;
+  });
+  const index = array.findIndex((el) => {
+    return deportivos[indice].id == el.id;
+  });
 
+  if (repe) {
+    console.log("se repite");
 
-  array.forEach((el) => {
+    array[index].cantidad = array[index].cantidad + 1;
+    actualizar();
+    almacenar();
+  } else {
+    deportivos[indice].cantidad = 1;
+    console.log("no se repite");
+    array.push(deportivos[indice]);
+    actualizar();
+    almacenar();
+  }
+}
+
+function actualizar() {
+  modal.innerHTML = " ";
+
+  //HACER UNA NOTIFICACION QUE SE AGREGO AL CARRITO UN PRODUCTO
+  //hacer un modal a la muestra del carrito
+  array.forEach((el, ind) => {
+    let subido = document.createElement("div");
+
     subido.innerHTML = `<div>
-<h3>Se agregó al carrito ${el.nombre} de ${el.equipo}</h3>
+    <div><h2>${el.nombre} de ${el.equipo}</h2>
+    <button type="button" class="btn btn-danger"  onclick="eliminar(${ind})">Eliminar</button></div>
 <p>Precio: ${el.precio}</p>
-</div>`;
+</div>
+<p>Cantidad: ${el.cantidad}</p>`;
 
-    carga.appendChild(subido);
+    modal.appendChild(subido);
   });
 }
+
+function eliminar(ind) {
+  if (array[ind].cantidad == 1) {
+    array.splice(ind, 1);
+    actualizar();
+    almacenar();
+  } else {
+    array[ind].cantidad = array[ind].cantidad - 1;
+
+    actualizar();
+  }
+}
+function vaciarCarrito() {
+  let long = array.length;
+  array.splice(0, long);
+  actualizar();
+}
+
+function compra() {
+  tot = array.reduce(
+    (acumulador, elemento) => acumulador + elemento.precio * elemento.cantidad,
+    0
+  );
+  let total = document.createElement("p");
+  total.innerHTML = `EL total de la compra:${tot}`;
+
+  comprado.appendChild(total);
+  almacenar();
+}
+
+function almacenar() {
+  const pasaje = JSON.stringify(array);
+  localStorage.setItem("Productos elegidos", pasaje);
+}
+
+function formulario() {}
