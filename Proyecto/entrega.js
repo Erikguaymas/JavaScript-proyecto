@@ -3,6 +3,8 @@ let i;
 const array = [];
 let modal = document.getElementById("modal");
 let comprado = document.getElementById("compra");
+let subtotal=document.getElementById("subtotal")
+let sumaParcial=0;
 
 
 const deportivos = [
@@ -77,7 +79,7 @@ function validar() {
   parrafo.className = "titulo";
   parrafo.style.maxWidth = "auto";
 
-  parrafo.innerHTML = `<h1>Hola bienvenido ${nombre}, acontinuación te mostraremos los productos disponibles</h1>`;
+  parrafo.innerHTML = `<h3>Hola bienvenido ${nombre}, acontinuación te mostraremos los productos disponibles</h3>`;
   contenido.appendChild(parrafo);
   mostrar();
 }
@@ -93,7 +95,7 @@ function mostrar() {
     cont.innerHTML = `
 <div class="row g-0">
   <div class="col-md-4">
-    <img src="${elemento.imagen}" class="img-fluid rounded-start" alt="ERROR">
+    <img src="${elemento.imagen}"  class="img-fluid rounded-start" alt="ERROR">
   </div>
 <div class="col-md-8">
   <div class="card-body">
@@ -152,7 +154,7 @@ function actualizar() {
   modal.innerHTML = " ";
 
   //HACER UNA NOTIFICACION QUE SE AGREGO AL CARRITO UN PRODUCTO
-  //hacer un modal a la muestra del carrito
+  
   array.forEach((el, ind) => {
     let subido = document.createElement("div");
 
@@ -164,6 +166,14 @@ function actualizar() {
 <p>Cantidad: ${el.cantidad}</p>`;
 
     modal.appendChild(subido);
+
+
+     sumaParcial=array.reduce(
+      (acumulador, elemento) => acumulador + elemento.precio * elemento.cantidad,
+      0
+    );
+    subtotal.innerText=`Subtotal: ${sumaParcial}`
+     
   });
 }
 
@@ -181,7 +191,10 @@ function eliminar(ind) {
 function vaciarCarrito() {
   let long = array.length;
   array.splice(0, long);
+  sumaParcial=0;
+  subtotal.innerText=`Subtotal: ${sumaParcial}`
   actualizar();
+  
 }
 
 function compra() {
@@ -190,7 +203,7 @@ function compra() {
     0
   );
   let total = document.createElement("p");
-  total.innerHTML = `EL total de la compra:${tot}`;
+  total.innerHTML = `EL total de la compra: $${tot}`;
 
   comprado.appendChild(total);
   almacenar();
@@ -200,69 +213,65 @@ function almacenar() {
   const pasaje = JSON.stringify(array);
   localStorage.setItem("Productos elegidos", pasaje);
 }
+  
+let div1 = document.getElementById("cards")
 
-let form=document.getElementById("mandar");
-  form.addEventListener("click",formulario)
-  function formulario() {
-  
-    let pago=document.getElementById("aprobacion")
-      let dato=document.createElement("div");
-  
-      dato.innerHTML=`<form class="row g-3 needs-validation" novalidate>
-      <div class="col-md-4">
-        <label for="validationCustom01" class="form-label">Nombre</label>
-        <input type="text" class="form-control" id="validationCustom01" value="Mark" required>
-        <div class="valid-feedback">
-          ¡Se ve bien!
-        </div>
-      </div>
-      <div class="col-md-4">
-        <label for="validationCustom02" class="form-label">Apellido</label>
-        <input type="text" class="form-control" id="validationCustom02" value="Otto" required>
-        <div class="valid-feedback">
-          ¡Se ve bien!
-        </div>
-      </div>
-      <div class="col-md-4">
-        <label for="validationCustomUsername" class="form-label">Nombre de usuario</label>
-        <div class="input-group has-validation">
-          <span class="input-group-text" id="inputGroupPrepend">@</span>
-          <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
-          <div class="invalid-feedback">
-            Por favor, elije un nombre de usuario.
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <label for="validationCustom03" class="form-label">Ciudad</label>
-        <input type="text" class="form-control" id="validationCustom03" required>
-        <div class="invalid-feedback">
-          Proporciona una ciudad válida.
-        </div>
-      </div>
-      <div class="col-md-3">
-        <label for="validationCustom04" class="form-label">Estado</label>
-        <select class="form-select" id="validationCustom04" required>
-          <option selected disabled value="">Elige...</option>
-          <option>...</option>
-        </select>
-        <div class="invalid-feedback">
-          Selecciona un estado válido.
-        </div>
-      </div>
-      <div class="col-md-3">
-        <label for="validationCustom05" class="form-label">Código postal</label>
-        <input type="text" class="form-control" id="validationCustom05" required>
-        <div class="invalid-feedback">
-          Proporciona un código postal válido.
-        </div>
-      </div>
-      <div class="col-12">
-        <button class="btn btn-primary" type="submit">Enviar formulario</button>
-      </div>
-      </form>
-  `;
-  pago.appendChild(dato);
-  }
-  
+function filtro(categoria){
+let filtrado;
+if(categoria=="camisetas"){  
+  filtrado = deportivos.filter(prod => prod.nombre=="Camiseta");
+filtracion(filtrado)
+}
 
+if(categoria=="general"){
+div1.innerHTML=""
+  mostrar();
+}
+if(categoria=="short"){
+  const filtrado1= deportivos.filter(prod => prod.nombre=="Short" );
+
+  filtracion(filtrado1)
+
+}
+if(categoria=="campera"){
+  const filtrado2= deportivos.filter(prod => prod.nombre=="Campera" );
+
+  filtracion(filtrado2)
+}
+if(categoria=="camperon"){
+  const filtrado3= deportivos.filter(prod => prod.nombre=="Camperón" );
+
+  filtracion(filtrado3)
+}
+if(categoria=="pantalon")
+{
+  const filtrado4= deportivos.filter(prod => prod.nombre=="Pantalón" );
+
+  filtracion(filtrado4)
+}
+}
+function filtracion(filtrado){
+  console.log(filtrado)
+  div1.innerHTML="";
+  filtrado.forEach((elemento) => {
+    let cont = document.createElement("div");
+    cont.className = "card";
+    cont.style.maxWidth = "400px";
+    cont.style.maxHeight="200px"
+    cont.innerHTML = `
+<div class="row g-0">
+  <div class="col-md-4">
+    <img src="${elemento.imagen}"  class="img-fluid rounded-start" alt="ERROR">
+  </div>
+<div class="col-md-8">
+  <div class="card-body">
+    <h5 class="card-title">${elemento.nombre} ${elemento.equipo}</h5>
+    <p class="card-text">Precio: $${elemento.precio}</p>
+    <button  type="button" class="btn btn-dark" onClick="agregar(${elemento.id-1})">Agregar al carrito</button>
+  </div>
+</div>
+</div>`
+div1.appendChild(cont);
+})
+
+}
