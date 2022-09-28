@@ -131,25 +131,17 @@ function agregar(indice) {
   const index = array.findIndex((el) => {
     return deportivos[indice].id == el.id;
   });
-
-  if (repe) {
-    array[index].cantidad = array[index].cantidad + 1;
-    actualizar();
-    almacenar();
-  } else {
-    deportivos[indice].cantidad = 1;
+//OPERACION TERNARIO
+  repe? (array[index].cantidad = array[index].cantidad + 1, actualizar(), almacenar()) : 
+  (deportivos[indice].cantidad = 1,
 
     //SPREAD ARRAY DE OBJECTOS
-    elemento = [deportivos[indice]];
-    console.log(elemento);
-
-    array = [...array, ...elemento];
-    console.log(array);
-
+    elemento = [deportivos[indice]],
+    array = [...array, ...elemento],
     //array.push(deportivos[indice]);
-    actualizar();
-    almacenar();
-  }
+    actualizar(),
+    almacenar()
+  )
 }
 
 function actualizar() {
@@ -177,16 +169,11 @@ function actualizar() {
 }
 
 function eliminar(ind) {
-  if (array[ind].cantidad == 1) {
-    array.splice(ind, 1);
-    actualizar();
-    almacenar();
-  } else {
-    array[ind].cantidad = array[ind].cantidad - 1;
-
-    actualizar();
-  }
+  //OPERACION TERNARIO
+   array[ind].cantidad == 1? (array.splice(ind, 1), actualizar(), almacenar()) : 
+   ( array[ind].cantidad = array[ind].cantidad - 1, actualizar())
 }
+
 function vaciarCarrito() {
   let long = array.length;
   array.splice(0, long);
@@ -194,7 +181,9 @@ function vaciarCarrito() {
   subtotal.innerText = `Subtotal: ${sumaParcial}`;
   actualizar();
 }
+
 let det = document.getElementById("detalles");
+
 function compra() {
   tot = array.reduce(
     (acumulador, elemento) => acumulador + elemento.precio * elemento.cantidad,
@@ -252,6 +241,7 @@ function filtro(categoria) {
     filtracion(filtrado4);
   }
 }
+
 function filtracion(filtrado) {
   console.log(filtrado);
   div1.innerHTML = "";
@@ -280,7 +270,7 @@ function filtracion(filtrado) {
   });
 }
 
-const valores = deportivos.map((el) => el.precio);
+//const valores = deportivos.map((el) => el.precio);
 
 //console.log(valores)
 //console.log( Math.min(...valores) )
