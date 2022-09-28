@@ -1,11 +1,10 @@
 //PROGRAMA
 let i;
-const array = [];
+let array = [];
 let modal = document.getElementById("modal");
 let comprado = document.getElementById("compra");
-let subtotal=document.getElementById("subtotal")
-let sumaParcial=0;
-
+let subtotal = document.getElementById("subtotal");
+let sumaParcial = 0;
 
 const deportivos = [
   {
@@ -118,13 +117,11 @@ function mostrar() {
   </div>
 </div>
 
+
  
 `;
     div.appendChild(cont);
   });
- 
-  
-
 }
 
 function agregar(indice) {
@@ -136,15 +133,20 @@ function agregar(indice) {
   });
 
   if (repe) {
-    console.log("se repite");
-
     array[index].cantidad = array[index].cantidad + 1;
     actualizar();
     almacenar();
   } else {
     deportivos[indice].cantidad = 1;
-    console.log("no se repite");
-    array.push(deportivos[indice]);
+
+    //SPREAD ARRAY DE OBJECTOS
+    elemento = [deportivos[indice]];
+    console.log(elemento);
+
+    array = [...array, ...elemento];
+    console.log(array);
+
+    //array.push(deportivos[indice]);
     actualizar();
     almacenar();
   }
@@ -153,8 +155,6 @@ function agregar(indice) {
 function actualizar() {
   modal.innerHTML = " ";
 
-  //HACER UNA NOTIFICACION QUE SE AGREGO AL CARRITO UN PRODUCTO
-  
   array.forEach((el, ind) => {
     let subido = document.createElement("div");
 
@@ -167,13 +167,12 @@ function actualizar() {
 
     modal.appendChild(subido);
 
-
-     sumaParcial=array.reduce(
-      (acumulador, elemento) => acumulador + elemento.precio * elemento.cantidad,
+    sumaParcial = array.reduce(
+      (acumulador, elemento) =>
+        acumulador + elemento.precio * elemento.cantidad,
       0
     );
-    subtotal.innerText=`Subtotal: ${sumaParcial}`
-     
+    subtotal.innerText = `Subtotal: ${sumaParcial}`;
   });
 }
 
@@ -191,12 +190,11 @@ function eliminar(ind) {
 function vaciarCarrito() {
   let long = array.length;
   array.splice(0, long);
-  sumaParcial=0;
-  subtotal.innerText=`Subtotal: ${sumaParcial}`
+  sumaParcial = 0;
+  subtotal.innerText = `Subtotal: ${sumaParcial}`;
   actualizar();
-  
 }
-
+let det = document.getElementById("detalles");
 function compra() {
   tot = array.reduce(
     (acumulador, elemento) => acumulador + elemento.precio * elemento.cantidad,
@@ -205,7 +203,13 @@ function compra() {
   let total = document.createElement("p");
   total.innerHTML = `EL total de la compra: $${tot}`;
 
+  //Uso de desestructuracion
   comprado.appendChild(total);
+  for (const { equipo, nombre } of array) {
+    let paraf = document.createElement("p");
+    paraf.innerHTML = `Disfrute de la compra de ${nombre} de ${equipo}`;
+    det.appendChild(paraf);
+  }
   almacenar();
 }
 
@@ -213,51 +217,49 @@ function almacenar() {
   const pasaje = JSON.stringify(array);
   localStorage.setItem("Productos elegidos", pasaje);
 }
-  
-let div1 = document.getElementById("cards")
 
-function filtro(categoria){
-let filtrado;
-if(categoria=="camisetas"){  
-  filtrado = deportivos.filter(prod => prod.nombre=="Camiseta");
-filtracion(filtrado)
-}
+let div1 = document.getElementById("cards");
 
-if(categoria=="general"){
-div1.innerHTML=""
-  mostrar();
-}
-if(categoria=="short"){
-  const filtrado1= deportivos.filter(prod => prod.nombre=="Short" );
+function filtro(categoria) {
+  let filtrado;
+  if (categoria == "camisetas") {
+    filtrado = deportivos.filter((prod) => prod.nombre == "Camiseta");
+    filtracion(filtrado);
+  }
 
-  filtracion(filtrado1)
+  if (categoria == "general") {
+    div1.innerHTML = "";
+    mostrar();
+  }
+  if (categoria == "short") {
+    const filtrado1 = deportivos.filter((prod) => prod.nombre == "Short");
 
-}
-if(categoria=="campera"){
-  const filtrado2= deportivos.filter(prod => prod.nombre=="Campera" );
+    filtracion(filtrado1);
+  }
+  if (categoria == "campera") {
+    const filtrado2 = deportivos.filter((prod) => prod.nombre == "Campera");
 
-  filtracion(filtrado2)
-}
-if(categoria=="camperon"){
-  const filtrado3= deportivos.filter(prod => prod.nombre=="Camperón" );
+    filtracion(filtrado2);
+  }
+  if (categoria == "camperon") {
+    const filtrado3 = deportivos.filter((prod) => prod.nombre == "Camperón");
 
-  filtracion(filtrado3)
-}
-if(categoria=="pantalon")
-{
-  const filtrado4= deportivos.filter(prod => prod.nombre=="Pantalón" );
+    filtracion(filtrado3);
+  }
+  if (categoria == "pantalon") {
+    const filtrado4 = deportivos.filter((prod) => prod.nombre == "Pantalón");
 
-  filtracion(filtrado4)
+    filtracion(filtrado4);
+  }
 }
-}
-function filtracion(filtrado){
-  console.log(filtrado)
-  div1.innerHTML="";
+function filtracion(filtrado) {
+  console.log(filtrado);
+  div1.innerHTML = "";
   filtrado.forEach((elemento) => {
     let cont = document.createElement("div");
     cont.className = "card";
     cont.style.maxWidth = "400px";
-    cont.style.maxHeight="200px"
+    cont.style.maxHeight = "200px";
     cont.innerHTML = `
 <div class="row g-0">
   <div class="col-md-4">
@@ -267,11 +269,18 @@ function filtracion(filtrado){
   <div class="card-body">
     <h5 class="card-title">${elemento.nombre} ${elemento.equipo}</h5>
     <p class="card-text">Precio: $${elemento.precio}</p>
-    <button  type="button" class="btn btn-dark" onClick="agregar(${elemento.id-1})">Agregar al carrito</button>
+    <button  type="button" class="btn btn-dark" onClick="agregar(${
+      elemento.id - 1
+    })">Agregar al carrito</button>
   </div>
 </div>
-</div>`
-div1.appendChild(cont);
-})
-
+</div>
+`;
+    div1.appendChild(cont);
+  });
 }
+
+const valores = deportivos.map((el) => el.precio);
+
+//console.log(valores)
+//console.log( Math.min(...valores) )

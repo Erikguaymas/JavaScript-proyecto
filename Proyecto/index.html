@@ -12,40 +12,48 @@
 </head>
 
 <body>
-<header style="background-color: green"><h2 class="text-center p-3">MINI TIENDA</h2></header>
+  <header style="background-color: green">
+    <h2 class="text-center p-3">MINI TIENDA</h2>
+  </header>
 
   <div id="bienvenida" class="text-center p-3 mb-2  text-dark">
     <form id="entrada">
       <div id="dato">
         <input type="text" id="nombre" name="country_code" placeholder="Ingrese su nombre" pattern="[A-Za-z]{1,15}"
-        title="Ingrese texto" required>
-       
+          title="Ingrese texto" required>
+
       </div>
     </form>
   </div>
 
   <div class="container-fluid m-5 " style="display: flex; ">
-    <div class="list-group" style="display: flex; flex-direction: column ; width: 20%;"  >
-      
-      
-        <button type="button" class="list-group-item list-group-item-action active border mb-2" style="width: 70%" onclick="filtro(`general`)">
-          General
-        </button>
-        <button type="button" class="list-group-item list-group-item-action border mb-2" style="width: 70%;" onclick="filtro(`camisetas`)">Camisetas</button>
-        <button type="button" class="list-group-item list-group-item-action border mb-2" style="width: 70%;" onclick="filtro(`short`)">Short</button>
-        <button type="button" class="list-group-item list-group-item-action border mb-2" style="width: 70%;" onclick="filtro(`campera`)">Campera</button>
-        <button type="button" class="list-group-item list-group-item-action border mb-2" style="width: 70%;" onclick="filtro(`camperon`)">Camperón</button>
-        <button type="button" class="list-group-item list-group-item-action border mb-2" style="width: 70%;" onclick="filtro(`pantalon`)">Pantalón</button>
+    <div class="list-group" style="display: flex; flex-direction: column ; width: 20%;">
+
+
+      <button type="button" class="list-group-item list-group-item-action active border mb-2" style="width: 70%"
+        onclick="filtro(`general`)">
+        General
+      </button>
+      <button type="button" class="list-group-item list-group-item-action border mb-2" style="width: 70%;"
+        onclick="filtro(`camisetas`)">Camisetas</button>
+      <button type="button" class="list-group-item list-group-item-action border mb-2" style="width: 70%;"
+        onclick="filtro(`short`)">Short</button>
+      <button type="button" class="list-group-item list-group-item-action border mb-2" style="width: 70%;"
+        onclick="filtro(`campera`)">Campera</button>
+      <button type="button" class="list-group-item list-group-item-action border mb-2" style="width: 70%;"
+        onclick="filtro(`camperon`)">Camperón</button>
+      <button type="button" class="list-group-item list-group-item-action border mb-2" style="width: 70%;"
+        onclick="filtro(`pantalon`)">Pantalón</button>
 
 
 
-      
+
 
     </div>
     <div id="cards" class="row " style="width: 80%;"></div>
   </div>
-  
-  
+
+
   <div id="agregado" class="mx-auto" style="width: 200px;">
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
       Mostrar Carrito
@@ -64,8 +72,8 @@
           </div>
           <div class="modal-footer">
             <div id="subtotal">
-            
-          </div>
+
+            </div>
             <div>
               <button type="button" class="btn btn-secondary" onclick="vaciarCarrito()">Vaciar Carrito</button>
             </div>
@@ -78,8 +86,10 @@
   </div>
 
   <div id="compra" class="mx-auto" style="width: 200px;"></div>
-  
-   <!--  <div id="pago">
+  <div id="detalles">
+
+  </div>
+  <!--  <div id="pago">
 
   <h4>Como desea pagar?</h4>
   <div class="form-check">
@@ -99,14 +109,62 @@
 </div>
 
   <div id="aprobacion"></div>
-
+<a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+  Enlace con href
+</a>
 
 -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-    crossorigin="anonymous"></script>
+  <div class="mx-auto">
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
+      aria-controls="offcanvasExample">
+      Envio
+    </button>
+  </div>
 
-  <script src="./entrega.js"></script>
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <form class="row g-3">
+        <div class="col-md-6">
+          <label for="validationDefault01" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="validationDefault01" value="Mark" required>
+        </div>
+        <div class="col-md-6">
+          <label for="validationDefault02" class="form-label">Apellido</label>
+          <input type="text" class="form-control" id="validationDefault02" value="Otto" required>
+        </div>
+        <div class="col-md-12">
+          <label for="validationDefaultUsername" class="form-label">Correo electronico</label>
+
+          <input type="text" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2"
+            required>
+
+        </div>
+        <div class="col-md-6">
+          <label for="validationDefault03" class="form-label">Ciudad</label>
+          <input type="text" class="form-control" id="validationDefault03" required>
+        </div>
+        <div class="col-md-6">
+          <label for="validationDefault04" class="form-label">Direccion</label>
+          <input type="text" class="form-control" id="validationDefault05" required>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-primary" type="submit">Enviar formulario</button>
+        </div>
+      </form>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"></script>
+
+    <script src="./entrega.js"></script>
 </body>
 
 </html>
