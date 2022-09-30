@@ -61,16 +61,20 @@ const deportivos = [
     detalle: "Pantalon strike Nike Hombre Modelo 22/23 Color azul.",
   },
 ];
+let id = document.getElementById("nombre");
+id.addEventListener("keypress", validar);
+function validar(event) {
+  console.log(event.keyCode);
+  var key = event.keyCode;
+  if ((key < 65 || key > 90) && (key > 122 || key < 97) && (key = !13)) {
+    event.preventDefault();
+  }
+}
 
-const saludo = document.getElementById("entrada");
-saludo.addEventListener("submit", validar);
-
-function validar() {
-  let nombre = document.getElementById("nombre").value;
-  nombre.oninvalid = function (event) {
-    event.target.setCumtomValidity("Ingrese texto");
-  };
-
+let clickeo = document.getElementById("formu");
+clickeo.addEventListener("submit", muestra);
+function muestra() {
+  clickeo.remove();
   let contenido = document.getElementById("bienvenida");
   contenido.innerHTML = "";
 
@@ -78,7 +82,7 @@ function validar() {
   parrafo.className = "titulo";
   parrafo.style.maxWidth = "auto";
 
-  parrafo.innerHTML = `<h3>Hola bienvenido ${nombre}, acontinuación te mostraremos los productos disponibles</h3>`;
+  parrafo.innerHTML = `<h3>Hola bienvenido ${id.value}, acontinuación te mostraremos los productos disponibles</h3>`;
   contenido.appendChild(parrafo);
   mostrar();
 }
@@ -131,17 +135,20 @@ function agregar(indice) {
   const index = array.findIndex((el) => {
     return deportivos[indice].id == el.id;
   });
-//OPERACION TERNARIO
-  repe? (array[index].cantidad = array[index].cantidad + 1, actualizar(), almacenar()) : 
-  (deportivos[indice].cantidad = 1,
-
-    //SPREAD ARRAY DE OBJECTOS
-    elemento = [deportivos[indice]],
-    array = [...array, ...elemento],
-    //array.push(deportivos[indice]);
-    actualizar(),
-    almacenar()
-  )
+  //OPERACION TERNARIO
+  repe
+    ? ((array[index].cantidad = array[index].cantidad + 1),
+      actualizar(),
+      almacenar(),
+      toas(array, index))
+    : ((deportivos[indice].cantidad = 1),
+      //SPREAD ARRAY DE OBJECTOS
+      (elemento = [deportivos[indice]]),
+      (array = [...array, ...elemento]),
+      //array.push(deportivos[indice]);
+      actualizar(),
+      almacenar(),
+      toas(deportivos, indice));
 }
 
 function actualizar() {
@@ -170,8 +177,9 @@ function actualizar() {
 
 function eliminar(ind) {
   //OPERACION TERNARIO
-   array[ind].cantidad == 1? (array.splice(ind, 1), actualizar(), almacenar()) : 
-   ( array[ind].cantidad = array[ind].cantidad - 1, actualizar())
+  array[ind].cantidad == 1
+    ? (array.splice(ind, 1), actualizar(), almacenar())
+    : ((array[ind].cantidad = array[ind].cantidad - 1), actualizar());
 }
 
 function vaciarCarrito() {
@@ -201,6 +209,34 @@ function compra() {
   }
   almacenar();
 }
+function mensaje() {
+  (async () => {
+    /* inputOptions can be an object or Promise */
+    const inputOptions = new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          tarjeta: "tarjeta",
+          efectivo: "efectivo",
+        });
+      }, 1000);
+    });
+
+    const { value: color } = await Swal.fire({
+      title: "Seleccionar pago",
+      input: "radio",
+      inputOptions: inputOptions,
+      inputValidator: (value) => {
+        if (!value) {
+          return "ELIJA UNA OPCION, POR FAVOR!!";
+        }
+      },
+    });
+
+    if (color) {
+      Swal.fire({ html: `Selecciono pagar con ${color}` }); //tendras un descuento de 5%
+    }
+  })();
+}
 
 function almacenar() {
   const pasaje = JSON.stringify(array);
@@ -208,10 +244,27 @@ function almacenar() {
 }
 
 let div1 = document.getElementById("cards");
+/*
+function filtro(categoria){
+  console.log(categoria)
+  if (categoria == "general") {
+    div1.innerHTML = "";
+    mostrar();
+  }
+  else{
+    filtracion(deportivos.filter((depo) =>{
+depo.nombre==categoria
+    }))
+   
+  }
+
+
+
+}*/
 
 function filtro(categoria) {
   let filtrado;
-  if (categoria == "camisetas") {
+  if (categoria == "Camiseta") {
     filtrado = deportivos.filter((prod) => prod.nombre == "Camiseta");
     filtracion(filtrado);
   }
@@ -220,22 +273,22 @@ function filtro(categoria) {
     div1.innerHTML = "";
     mostrar();
   }
-  if (categoria == "short") {
+  if (categoria == "Short") {
     const filtrado1 = deportivos.filter((prod) => prod.nombre == "Short");
 
     filtracion(filtrado1);
   }
-  if (categoria == "campera") {
+  if (categoria == "Campera") {
     const filtrado2 = deportivos.filter((prod) => prod.nombre == "Campera");
 
     filtracion(filtrado2);
   }
-  if (categoria == "camperon") {
+  if (categoria == "Camperón") {
     const filtrado3 = deportivos.filter((prod) => prod.nombre == "Camperón");
 
     filtracion(filtrado3);
   }
-  if (categoria == "pantalon") {
+  if (categoria == "Pantalón") {
     const filtrado4 = deportivos.filter((prod) => prod.nombre == "Pantalón");
 
     filtracion(filtrado4);
@@ -270,7 +323,11 @@ function filtracion(filtrado) {
   });
 }
 
-//const valores = deportivos.map((el) => el.precio);
-
-//console.log(valores)
-//console.log( Math.min(...valores) )
+function toas(array, index) {
+  //  console.log(array[indice])
+  Toastify({
+    text: `Se agregó ${array[index].nombre} de ${array[index].equipo}`,
+    duration: 3000,
+    gravity: `bottom`,
+  }).showToast();
+}
