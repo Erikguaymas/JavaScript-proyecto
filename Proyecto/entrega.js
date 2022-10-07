@@ -1,4 +1,3 @@
-//PROGRAMA
 let i;
 let array = [];
 let modal = document.getElementById("modal");
@@ -6,92 +5,40 @@ let comprado = document.getElementById("compra");
 let subtotal = document.getElementById("subtotal");
 let sumaParcial = 0;
 
-const deportivos = [
-  {
-    id: 1,
-    nombre: "Camiseta",
-    equipo: "Selección Argentina",
-    precio: 18000,
-    imagen: "img/CamisetaSelArg.jpg",
-    detalle:
-      "Camiseta Adidas Hombre Uniforme Titular Qatar 2022. Todos los talles disponibles .",
-  },
-  {
-    id: 2,
-    nombre: "Camiseta",
-    equipo: "Real Madrid",
-    precio: 17000,
-    imagen: "img/CamisetaReal.png",
-    detalle:
-      "Camiseta Adidas Manga corta Hombre Uniforme Titular Temporada 2022. Todos los talles disponibles",
-  },
-  {
-    id: 3,
-    nombre: "Campera",
-    equipo: "Boca Juniors",
-    precio: 18000,
-    imagen: "img/CamperaBOCA.JPG",
-    detalle:
-      "Campera deportiva Adidas Hombre. Temporada invierno color azul 3 tiras amarillas estilo adidas.",
-  },
-  {
-    id: 4,
-    nombre: "Short",
-    equipo: "River Plate",
-    precio: 6000,
-    imagen: "img/ShortRIVER.jpg",
-    detalle:
-      "Short Adidas Hombre Uniforme TItular Temporada 21/22. Todos los talles disponibles.",
-  },
-  {
-    id: 5,
-    nombre: "Camperón",
-    equipo: "Barcelona",
-    precio: 20000,
-    imagen: "img/chaquetaBARSA.jpeg",
-    detalle:
-      "Chaqueta Acolchada Nike con capucha Temporada invierno Multicolor.",
-  },
-  {
-    id: 6,
-    nombre: "Pantalón",
-    equipo: "PSG",
-    precio: 8000,
-    imagen: "img/PantalonPSG.jpg",
-    detalle: "Pantalon strike Nike Hombre Modelo 22/23 Color azul.",
-  },
-];
 let id = document.getElementById("nombre");
-id.addEventListener("keypress", validar);
+    id.addEventListener("keypress", validar);
+
 function validar(event) {
-  console.log(event.keyCode);
   var key = event.keyCode;
-  if ((key < 65 || key > 90) && (key > 122 || key < 97) && (key = !13)) {
-    event.preventDefault();
-  }
+    if ((key < 65 || key > 90) && (key > 122 || key < 97) && (key = !13)) {
+      event.preventDefault();
+      }
 }
 
 let clickeo = document.getElementById("formu");
-clickeo.addEventListener("submit", muestra);
+    clickeo.addEventListener("submit", muestra);
+
 function muestra() {
   clickeo.remove();
-  let contenido = document.getElementById("bienvenida");
-  contenido.innerHTML = "";
-
-  const parrafo = document.createElement("div");
-  parrafo.className = "titulo";
-  parrafo.style.maxWidth = "auto";
-
-  parrafo.innerHTML = `<h3>Hola bienvenido ${id.value}, acontinuación te mostraremos los productos disponibles</h3>`;
-  contenido.appendChild(parrafo);
-  mostrar();
+  
+  Swal.fire(`Hola bienvenido ${id.value}, acontinuación te mostraremos los productos disponibles`)
+  
 }
 
-function mostrar() {
-  let div = document.getElementById("cards");
+let deportivos=[]
+
+fetch("./datos.json")
+  
+.then(resp=>resp.json())
+
+.then(datas=>{
+  
+  deportivos=datas
+let div = document.getElementById("cards");
   console.log(div);
 
-  deportivos.forEach((elemento, indice) => {
+  deportivos.forEach((elemento, indice, arr) => {
+    
     let cont = document.createElement("div");
     cont.className = "card";
     cont.style.maxWidth = "400px";
@@ -108,49 +55,68 @@ function mostrar() {
   </div>
 </div>
 </div>
-<div class="accordion accordion-flush" id="accordionFlushExample">
-  <div class="accordion-item border">
-    <h2 class="accordion-header" id="flush-headingOne">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-        Ver detalles
-      </button>
-    </h2>
-    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body">${elemento.detalle}</div>
-    </div>
-  </div>
+<div class="accordion">
+<div class="accordion-item" >
+<h2 class="accordion-header" >
+<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" onClick="ocultar(${indice})">
+  Ver detalle
+</button>
+</h2>
+<div  class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+<div class="accordion-body">
+  ${elemento.detalle}
 </div>
-
-
- 
+</div>
+</div>
+</div>
 `;
-    div.appendChild(cont);
+  div.appendChild(cont);
   });
+})
+
+
+function ocultar(indice){
+
+const div=document.getElementsByClassName("accordion-collapse")
+const button=document.getElementsByClassName("accordion-button")
+if(div[indice].classList.contains('show')){
+div[indice].classList.remove("show")
+button[indice].classList.add("collapsed")
+}
+
+else{
+  div[indice].classList.add("show")
+  button[indice].classList.remove("collapsed")
+}
+
+
 }
 
 function agregar(indice) {
+  console.log(deportivos)
   const repe = array.some((el) => {
     return deportivos[indice].id == el.id;
   });
   const index = array.findIndex((el) => {
     return deportivos[indice].id == el.id;
   });
-  //OPERACION TERNARIO
-  repe
-    ? ((array[index].cantidad = array[index].cantidad + 1),
-      actualizar(),
-      almacenar(),
-      toas(array, index))
-    : ((deportivos[indice].cantidad = 1),
+  
+  if(repe){
+     (array[index].cantidad = array[index].cantidad + 1);
+      actualizar();
+      almacenar();
+      toas(array, index);
+  }else{ 
+      (deportivos[indice].cantidad = 1);
       //SPREAD ARRAY DE OBJECTOS
-      (elemento = [deportivos[indice]]),
-      (array = [...array, ...elemento]),
-      //array.push(deportivos[indice]);
-      actualizar(),
-      almacenar(),
-      toas(deportivos, indice));
+      (elemento = [deportivos[indice]]);
+      (array = [...array, ...elemento]);
+      
+      actualizar();
+      almacenar();
+      toas(deportivos, indice);
 }
-
+}
 function actualizar() {
   modal.innerHTML = " ";
 
@@ -176,11 +142,16 @@ function actualizar() {
 }
 
 function eliminar(ind) {
-  //OPERACION TERNARIO
-  array[ind].cantidad == 1
-    ? (array.splice(ind, 1), actualizar(), almacenar())
-    : ((array[ind].cantidad = array[ind].cantidad - 1), actualizar());
-}
+
+  if(array[ind].cantidad == 1){
+     array.splice(ind, 1);
+      actualizar();
+       almacenar();
+  }
+  else { 
+    (array[ind].cantidad = array[ind].cantidad - 1); 
+    actualizar();
+}}
 
 function vaciarCarrito() {
   let long = array.length;
@@ -211,7 +182,7 @@ function compra() {
 }
 function mensaje() {
   (async () => {
-    /* inputOptions can be an object or Promise */
+    
     const inputOptions = new Promise((resolve) => {
       setTimeout(() => {
         resolve({
@@ -244,7 +215,7 @@ function almacenar() {
 }
 
 let div1 = document.getElementById("cards");
-/*
+
 function filtro(categoria){
   console.log(categoria)
   if (categoria == "general") {
@@ -252,47 +223,12 @@ function filtro(categoria){
     mostrar();
   }
   else{
-    filtracion(deportivos.filter((depo) =>{
-depo.nombre==categoria
-    }))
+    filtracion(deportivos.filter(produ =>
+produ.nombre==categoria
+    ))
    
   }
 
-
-
-}*/
-
-function filtro(categoria) {
-  let filtrado;
-  if (categoria == "Camiseta") {
-    filtrado = deportivos.filter((prod) => prod.nombre == "Camiseta");
-    filtracion(filtrado);
-  }
-
-  if (categoria == "general") {
-    div1.innerHTML = "";
-    mostrar();
-  }
-  if (categoria == "Short") {
-    const filtrado1 = deportivos.filter((prod) => prod.nombre == "Short");
-
-    filtracion(filtrado1);
-  }
-  if (categoria == "Campera") {
-    const filtrado2 = deportivos.filter((prod) => prod.nombre == "Campera");
-
-    filtracion(filtrado2);
-  }
-  if (categoria == "Camperón") {
-    const filtrado3 = deportivos.filter((prod) => prod.nombre == "Camperón");
-
-    filtracion(filtrado3);
-  }
-  if (categoria == "Pantalón") {
-    const filtrado4 = deportivos.filter((prod) => prod.nombre == "Pantalón");
-
-    filtracion(filtrado4);
-  }
 }
 
 function filtracion(filtrado) {
@@ -324,7 +260,6 @@ function filtracion(filtrado) {
 }
 
 function toas(array, index) {
-  //  console.log(array[indice])
   Toastify({
     text: `Se agregó ${array[index].nombre} de ${array[index].equipo}`,
     duration: 3000,

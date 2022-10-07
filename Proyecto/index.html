@@ -7,15 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tienda</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
 </head>
 
 <body>
-  <div id="bienvenida">
+  
     <form id="formu">
-    <div id="saludo" class="modal" tabindex="-1"  data-backdrop="static" style="display: block;" aria-modal="true">
+    <div id="saludo" class="modal" tabindex="-1"  data-backdrop="static" style="display: block;  background-color: rgba(0,0,0, 0.5) !important;" aria-modal="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header ">
@@ -34,12 +34,94 @@
       </div>
     </div>
   </form>
-  </div>
-  <header style="background-color: green">
+  
+  <header style="background-color: lightblue">
+    <div>
     <h2 class="text-center p-3">MINI TIENDA</h2>
+    </div>
+    <div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+            </li>
+            <li>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
+              <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+          </li>
+          </ul>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
+            <li class="nav.item"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Carrito
+            </button>
+
+          </li>
+          <li class="nav-item">
+            <div>
+              <button id="boton" onclick="mensaje()">Pagar</button>
+          </div>
+          </li>
+        
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </div>
+  <div>
+    <nav class="navbar navbar-light bg-light">
+      <div class="container-fluid">
+        <p>Acerca de nosotros</p>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Bienvenido</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Enlace</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Dropdown
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
+                  <li><a class="dropdown-item" href="#">Acción</a></li>
+                  <li><a class="dropdown-item" href="#">Otra acción</a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item" href="#">Algo más aquí</a></li>
+                </ul>
+              </li>
+            </ul>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
+              <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+    
   </header>
 
- 
+
   <div class="container-fluid m-5 " style="display: flex; ">
     <div class="list-group" style="display: flex; flex-direction: column ; width: 20%;">
 
@@ -59,19 +141,12 @@
       <button type="button" class="list-group-item list-group-item-action border mb-2" style="width: 70%;"
         onclick="filtro(`Pantalón`)">Pantalón</button>
 
-
-
-
-
     </div>
     <div id="cards" class="row " style="width: 80%;"></div>
   </div>
 
 
   <div id="agregado" class="mx-auto" style="width: 200px;">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Mostrar Carrito
-    </button>
 
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -101,9 +176,7 @@
 
   <div id="compra" class="mx-auto" style="width: 200px;"></div>
   <div id="detalles"> </div>
-  <div>
-    <button id="boton" onclick="mensaje()">Pagar</button>
-</div>
+
 
 
   <div class="mx-auto">
