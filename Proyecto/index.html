@@ -35,12 +35,13 @@
     </div>
   </form>
   
-  <header style="background-color: lightblue">
-    <div>
+  <header  >
+    <div style="background-color:lightblue">
     <h2 class="text-center p-3">MINI TIENDA</h2>
     </div>
+
     <div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-danger">
       <div class="container-fluid">
          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -51,23 +52,24 @@
               <a class="nav-link active" aria-current="page" href="#">Inicio</a>
             </li>
             <li>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
-              <button class="btn btn-outline-success" type="submit">Buscar</button>
+            <form class="d-flex">
+              
+              
+                  <input id="buscador" class="form-control me-2"  type="text" placeholder="Buscar" aria-label="Buscar">
+                  <button class="btn btn-outline-success" type="submit">Buscar</button>
+              
+                
+          
             </form>
           </li>
           </ul>
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
-            <li class="nav.item"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0"  >
+            <li class="nav-item" ><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
               Carrito
             </button>
 
           </li>
-          <li class="nav-item">
-            <div>
-              <button id="boton" onclick="mensaje()">Pagar</button>
-          </div>
-          </li>
+       
         
           </ul>
 
@@ -75,58 +77,19 @@
       </div>
     </nav>
   </div>
-  <div>
-    <nav class="navbar navbar-light bg-light">
-      <div class="container-fluid">
-        <p>Acerca de nosotros</p>
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-          <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Bienvenido</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body">
-            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Enlace</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
-                  <li><a class="dropdown-item" href="#">Acción</a></li>
-                  <li><a class="dropdown-item" href="#">Otra acción</a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item" href="#">Algo más aquí</a></li>
-                </ul>
-              </li>
-            </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
-              <button class="btn btn-outline-success" type="submit">Buscar</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </nav>
-  </div>
-    
+ 
   </header>
 
+    
+  <div class="shadow hideMe bg-danger" id="candidatos" style=" width: 300px; margin-left: 60px; position: absolute; z-index: 4;"></div>
 
-  <div class="container-fluid m-5 " style="display: flex; ">
+  <div class="container-fluid m-5 " style="display: flex;">
+
+  
     <div class="list-group" style="display: flex; flex-direction: column ; width: 20%;">
 
 
-      <button type="button" class="list-group-item list-group-item-action active border mb-2" style="width: 70%"
+      <button type="button" class="list-group-item list-group-item-action active border mb-2" style="width: 70%; background-color: aquamarine;"
         onclick="filtro(`general`)">
         General
       </button>
@@ -149,7 +112,7 @@
   <div id="agregado" class="mx-auto" style="width: 200px;">
 
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -167,69 +130,27 @@
               <button type="button" class="btn btn-secondary" onclick="vaciarCarrito()">Vaciar Carrito</button>
             </div>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <a id="formulario" href="formu.html">
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="compra()">Comprar</button>
+            </a>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div id="compra" class="mx-auto" style="width: 200px;"></div>
-  <div id="detalles"> </div>
-
-
-
-  <div class="mx-auto">
-    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
-      aria-controls="offcanvasExample">
-      Envio
-    </button>
-  </div>
-
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <form class="row g-3">
-        <div class="col-md-6">
-          <label for="validationDefault01" class="form-label">Nombre</label>
-          <input type="text" class="form-control" id="validationDefault01" value="Mark" required>
-        </div>
-        <div class="col-md-6">
-          <label for="validationDefault02" class="form-label">Apellido</label>
-          <input type="text" class="form-control" id="validationDefault02" value="Otto" required>
-        </div>
-        <div class="col-md-12">
-          <label for="validationDefaultUsername" class="form-label">Correo electronico</label>
-
-          <input type="text" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2"
-            required>
-
-        </div>
-        <div class="col-md-6">
-          <label for="validationDefault03" class="form-label">Ciudad</label>
-          <input type="text" class="form-control" id="validationDefault03" required>
-        </div>
-        <div class="col-md-6">
-          <label for="validationDefault04" class="form-label">Direccion</label>
-          <input type="text" class="form-control" id="validationDefault05" required>
-        </div>
-
-        <div class="col-12">
-          <button class="btn btn-primary" type="submit">Enviar formulario</button>
-        </div>
-      </form>
-    </div>
-
-
+  
+ 
+<footer>
+  <div class=""></div>
+  <div class=""></div>
+</footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
       crossorigin="anonymous"></script>
       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script src="./entrega.js"></script>
+    <script  src="./ej.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>

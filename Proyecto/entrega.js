@@ -1,12 +1,12 @@
 let i;
 let array = [];
 let modal = document.getElementById("modal");
-let comprado = document.getElementById("compra");
+
 let subtotal = document.getElementById("subtotal");
 let sumaParcial = 0;
 
-let id = document.getElementById("nombre");
-    id.addEventListener("keypress", validar);
+let idem = document.getElementById("nombre");
+idem.addEventListener("keypress", validar);
 
 function validar(event) {
   var key = event.keyCode;
@@ -21,23 +21,24 @@ let clickeo = document.getElementById("formu");
 function muestra() {
   clickeo.remove();
   
-  Swal.fire(`Hola bienvenido ${id.value}, acontinuación te mostraremos los productos disponibles`)
-  
+  Swal.fire(`Hola bienvenido ${idem.value}, acontinuación te mostraremos los productos disponibles`)
+  mostrar()
 }
 
 let deportivos=[]
 
-fetch("./datos.json")
-  
-.then(resp=>resp.json())
 
-.then(datas=>{
-  
+
+    const mostrar= async () => {
+        const resp = await fetch('./datos.json')
+        const datas = await resp.json()
+ 
   deportivos=datas
 let div = document.getElementById("cards");
-  console.log(div);
+  console.log(deportivos);
+  buscador(deportivos)
 
-  deportivos.forEach((elemento, indice, arr) => {
+  deportivos.forEach((elemento, indice) => {
     
     let cont = document.createElement("div");
     cont.className = "card";
@@ -72,7 +73,7 @@ let div = document.getElementById("cards");
 `;
   div.appendChild(cont);
   });
-})
+}
 
 
 function ocultar(indice){
@@ -105,6 +106,7 @@ function agregar(indice) {
      (array[index].cantidad = array[index].cantidad + 1);
       actualizar();
       almacenar();
+      
       toas(array, index);
   }else{ 
       (deportivos[indice].cantidad = 1);
@@ -125,7 +127,10 @@ function actualizar() {
 
     subido.innerHTML = `<div>
     <div><h2>${el.nombre} de ${el.equipo}</h2>
-    <button type="button" class="btn btn-danger"  onclick="eliminar(${ind})">Eliminar</button></div>
+    <button type="button" id="boton1" onclick="cambio(${ind},'+')">+</button>
+    <button type="button" id="boton2"  onclick="cambio(${ind},'-')">-</button>
+    
+    </div>
 <p>Precio: ${el.precio}</p>
 </div>
 <p>Cantidad: ${el.cantidad}</p>`;
@@ -139,21 +144,31 @@ function actualizar() {
     );
     subtotal.innerText = `Subtotal: ${sumaParcial}`;
   });
-}
+}  
 
-function eliminar(ind) {
+function cambio(ind, e){
 
-  if(array[ind].cantidad == 1){
-     array.splice(ind, 1);
-      actualizar();
-       almacenar();
+  if(e=="+"){
+    array[ind].cantidad  = array[ind].cantidad + 1
+  console.log(array[ind].cantidad)
+ actualizar();
+ almacenar();
   }
-  else { 
-    (array[ind].cantidad = array[ind].cantidad - 1); 
+ 
+ if(e=="-"){
+  array[ind].cantidad -= 1
+        if(array[ind].cantidad==0){
+          array.splice(ind, 1);
+          actualizar();
+    almacenar();
+        
+    }
     actualizar();
-}}
+    almacenar();
+    }
+ }
 
-function vaciarCarrito() {
+ function vaciarCarrito() {
   let long = array.length;
   array.splice(0, long);
   sumaParcial = 0;
@@ -161,57 +176,27 @@ function vaciarCarrito() {
   actualizar();
 }
 
-let det = document.getElementById("detalles");
 
 function compra() {
+  
+
   tot = array.reduce(
     (acumulador, elemento) => acumulador + elemento.precio * elemento.cantidad,
     0
   );
-  let total = document.createElement("p");
-  total.innerHTML = `EL total de la compra: $${tot}`;
 
-  //Uso de desestructuracion
-  comprado.appendChild(total);
-  for (const { equipo, nombre } of array) {
-    let paraf = document.createElement("p");
-    paraf.innerHTML = `Disfrute de la compra de ${nombre} de ${equipo}`;
-    det.appendChild(paraf);
-  }
-  almacenar();
-}
-function mensaje() {
-  (async () => {
-    
-    const inputOptions = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          tarjeta: "tarjeta",
-          efectivo: "efectivo",
-        });
-      }, 1000);
-    });
+  almacenar(tot);
 
-    const { value: color } = await Swal.fire({
-      title: "Seleccionar pago",
-      input: "radio",
-      inputOptions: inputOptions,
-      inputValidator: (value) => {
-        if (!value) {
-          return "ELIJA UNA OPCION, POR FAVOR!!";
-        }
-      },
-    });
-
-    if (color) {
-      Swal.fire({ html: `Selecciono pagar con ${color}` }); //tendras un descuento de 5%
-    }
-  })();
+ 
 }
 
-function almacenar() {
+
+function almacenar(tot) {
   const pasaje = JSON.stringify(array);
   localStorage.setItem("Productos elegidos", pasaje);
+  const precio=JSON.stringify(tot)
+  localStorage.setItem("Precio", precio);
+
 }
 
 let div1 = document.getElementById("cards");
@@ -221,6 +206,7 @@ function filtro(categoria){
   if (categoria == "general") {
     div1.innerHTML = "";
     mostrar();
+    
   }
   else{
     filtracion(deportivos.filter(produ =>
@@ -259,10 +245,68 @@ function filtracion(filtrado) {
   });
 }
 
-function toas(array, index) {
+ function toas(array, index) {
   Toastify({
     text: `Se agregó ${array[index].nombre} de ${array[index].equipo}`,
     duration: 3000,
     gravity: `bottom`,
   }).showToast();
 }
+
+let resultados=document.getElementById("candidatos")
+  let search= document.getElementById("buscador")
+  
+function buscador(deportivos){
+  const array2=[]
+  console.log(deportivos)
+  deportivos.forEach(element => {
+       
+
+    producto=`${element.nombre} ${element.equipo}`
+
+   
+        array2.push(producto)
+        
+    })
+  search.addEventListener("keyup", buscar)
+
+  function buscar(e){
+  
+
+    busqueda=e.target.value
+    letra=busqueda.charAt(0)
+    letraM=busqueda.charAt(0).toLocaleUpperCase()
+    palabra=busqueda.replace(letra,letraM)
+    
+    filtro(palabra)
+  }
+function filtro(palabra){
+  console.log(palabra)
+  resultados.innerHTML=""
+
+    array2.forEach(element => {
+       
+    let a=document.createElement("div")
+        
+   
+    if(element.includes(palabra)) {
+        
+        a.innerHTML=`<p>${element}</p>`
+        resultados.appendChild(a)
+        resultados.style.display="block"
+        resultados.style.maxWidth="400px"
+    } 
+});
+
+if(resultados.innerHTML==""){
+  resultados.style.display="block"
+  resultados.style.maxWidth="400px"
+    resultados.innerHTML="<p>Producto no encontrado</p>"
+    
+}
+if(palabra==""){
+  resultados.style.display="none"
+}
+}}
+
+
